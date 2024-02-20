@@ -1,0 +1,12 @@
+[
+  {
+    "correoElectronico": "imanol@email.com",
+    "usuario": "imanol",
+    "password": "Imanol1234"
+  },
+  {
+    "correoElectronico": "maria@email.com",
+    "usuario": "maria",
+    "password": "Maria1234"
+  }
+]

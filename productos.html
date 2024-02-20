@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"crossorigin="anonymous"/>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+   crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+   <style>
+    .divCard{
+      transition: all 1s ease;
+    }
+    .img-h {
+      transition: all 1s ease-out;
+    }
+    .offcanvas{
+      transition: all 1.5s ease;
+    }
+    .hoverImg {
+      top: 0;
+      box-shadow: 4px 6px 20px 0px black;
+      transform: translate(0%, -15%);
+    }
+    
+    </style>
+</head>
+<body>
+  <nav class="navbar bg-body-tertiary shadow-lg mb-4">
+    <div class="container-fluid p-3 row">
+      <a href="" class="navbar-brand col-lg-auto d-flex justify-content-center W-25"> <img src="Multimedia/logo.jpeg" width="70px" height="70px" alt="Logo"> </a>
+      <div class="d-flex col-lg-auto justify-content-center gap-2">
+        <a href="index.html" class="navbar-brand p-2 rounded text-uppercase itemNav"><small>home</small></a>
+        <a href="#" onclick="paginaNueva(this)" class="navbar-brand p-2 rounded text-uppercase itemNav" name="hombre"><small>hombre</small></a>
+        <a href="#" onclick="paginaNueva(this)" class="navbar-brand p-2 rounded text-uppercase itemNav" name="mujer"><small>mujer</small></a>
+        <a href="#" onclick="paginaNueva(this)" class="navbar-brand p-2 rounded text-uppercase itemNav" name="niño"><small>niño</small></a>
+      </div>
+      <div class="col-lg-auto d-flex align-items-center justify-content-center">
+        <div class="hstack gap-3">
+          <div class="dropdown mx-1">
+            <button class="btn btn-light dropdown-toggle text-capitalize" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="iniciarSesion"></button>
+            <ul class="dropdown-menu visually-hidden dropMenu">
+              <li><button class="dropdown-item d-flex align-items-center" type="button" id="cerrarSesion">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-box-arrow-in-left me-2" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0z"/>
+                  <path fill-rule="evenodd" d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708z"/>
+                </svg>
+                Cerrar Sesion
+              </button></li>
+            </ul>
+          </div>
+          <div class="vr"></div>
+          <button class="btn btn-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" id="carrito">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">
+              <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+            </svg>
+          </button>
+          <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title text-uppercase" id="offcanvasRightLabel">productos</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body" id="canvasBody"></div>
+            <button class="btn btn-outline-danger mb-4 mx-4" id="botonCompra">Finalizar compra</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div class="mx-1 bg-white container position-absolute top-20 end-0 z-3 dropMenu" style="display: none; max-width:400px;"></div>
+      <div class="container-fluid row my-2 justify-content-center">
+          <input class="border-0 border-bottom me-2 col-lg-2 col-md-6 col-sm-6" id="busqueda" type="search" placeholder="Buscar" aria-label="Search">
+          <button class="btn btn-outline-dark me-2 mt-1 col-lg-1 col-md-2 col-sm-2" id="botonBusqueda" type="submit">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+            </svg>
+          </button>
+          <button class="btn btn-outline-dark mt-1 col-lg-1 col-md-2 col-sm-2" id="botonHablar" type="submit">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-mic" viewBox="0 0 16 16">
+            <path d="M3.5 6.5A.5.5 0 0 1 4 7v1a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v1a5 5 0 0 1-4.5 4.975V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 .5-.5"/>
+            <path d="M10 8a2 2 0 1 1-4 0V3a2 2 0 1 1 4 0zM8 0a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V3a3 3 0 0 0-3-3"/>
+            </svg>
+          </button>
+      </div>
+      <section class="row my-5 mx-2">
+        <div class="col-lg-2 h-50 text-center mx-1 sticky-top filtros bg-white">
+            <h5>FILTROS</h5>
+            <div class="form-check form-switch d-flex align-items-center p-0 border-bottom oferta">
+                <label class="form-check-label px-2" for="oferta">Oferta</label>
+                <input class="form-check-input px-2 ms-3" type="checkbox" role="switch" id="oferta">
+            </div>
+            <div class="form-check col align-items-start p-0 border-bottom talla">
+                <h6 class="pt-2 ps-2 text-start">Talla</h6>
+                <div class="d-flex flex-row">
+                    <label class="form-check-label px-2" for="TallaS">S</label>
+                    <input class="form-check-input px-2 ms-1 tallaRopa" type="checkbox" value="S">
+                </div>
+                <div class="d-flex flex-row">
+                    <label class="form-check-label px-2" for="TallaM">M</label>
+                    <input class="form-check-input px-2 ms-1 tallaRopa" type="checkbox" value="M">
+                </div>
+                <div class="d-flex flex-row">
+                    <label class="form-check-label px-2" for="TallaL">L</label>
+                    <input class="form-check-input px-2 ms-1 tallaRopa" type="checkbox" value="L">
+                </div>
+                <div class="d-flex flex-row">
+                    <label class="form-check-label px-2" for="TallaXL">XL</label>
+                    <input class="form-check-input px-2 ms-1 tallaRopa" type="checkbox" value="XL">
+                </div>
+                <div class="d-flex flex-row mb-1">
+                    <label class="form-check-label px-2" for="TallaXXL">XXL</label>
+                    <input class="form-check-input px-2 ms-1 tallaRopa" type="checkbox" value="XXL">
+                </div>
+            </div>
+            <div class="form-check col align-items-start p-0 categoria">
+                <h6 class="pt-2 ps-2 text-start">Categoria</h6>
+                <div class="d-flex flex-row">
+                    <label class="form-check-label px-2" for="ropa">Ropa</label>
+                    <input class="form-check-input px-2 ms-1 categoria" type="checkbox" value="ropa">
+                </div>
+                <div class="d-flex flex-row">
+                    <label class="form-check-label px-2" for="calzado">Calzado</label>
+                    <input class="form-check-input px-2 ms-1 categoria" type="checkbox" value="calzado">
+                </div>
+                <div class="d-flex flex-row mb-1">
+                    <label class="form-check-label px-2" for="accesorio">Accesorio</label>
+                    <input class="form-check-input px-2 ms-1 categoria" type="checkbox" value="accesorio">
+                </div>
+            </div>
+            <div class="form-check col align-items-start p-0 precio">
+                <label for="precio" class="form-label">Precio</label>
+                <input type="range" class="form-range" min="5" max="400" id="precio">
+            </div>
+        </div>
+        <div class="col-lg-9 text-center mx-1 me-3">
+            <div class="row row-cols-2 container d-flex gap-4 justify-content-center" id="contenedorProductos">
+      </section>
+      <footer class="footer">
+        <div class="container-fluid bg-secondary text-center">
+          <div class="row">
+            <div class="col-lg-12 col-md-12">
+              <div id="map" class="map map-home w-100 mt-3" style="height:300px;"></div>
+              <button class="btn btn-light m-2" onclick="setFullMap()">Tu ubicacion</button>
+            </div>
+            <div class="col-lg-12 p-2 m-auto">
+              <h6>Derechos de autor</h6>
+              <p>(c) 2024 Tienda Imanol. Todos los derechos reservados.</p>
+            </div>
+            <div class="col-lg-12 p-2 justify-content-around d-inline-flex flex-wrap">
+              <h6><a href="footer.html" target="_blank" class="nav-link p-2">Nombre de la empresa</a></h6>
+              <h6><a href="footer.html" target="_blank" class="nav-link p-2">Contacto</a></h6>
+              <h6><a href="footer.html" target="_blank" class="nav-link p-2">Aviso legal</a></h6>
+              <h6><a href="footer.html" target="_blank" class="nav-link p-2">Privacidad del sitio</a></h6>
+              <h6><a href="footer.html" target="_blank" class="nav-link p-2">Condiciones de uso</a></h6>
+              <h6><a href="footer.html" target="_blank" class="nav-link p-2">Condiciones de venta</a></h6>
+            </div>
+          </div>
+        </div>
+      </footer>
+      <div class="container-fluid sticky-bottom bg-body-secondary text-center" id="cookies">
+        <p class="p-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi repudiandae accusamus minus quis et quod blanditiis nobis, dolores natus amet nostrum veritatis dolorum sit illum hic quo, nihil aliquid repellendus.</p>
+        <button class="text-capitalize m-4 bg-success botonCookies">aceptar</button>
+        <button class="text-capitalize m-4 bg-danger botonCookies">rechazar</button>
+      </div>
+      <script src="script.js"></script>
+</body>
+</html>

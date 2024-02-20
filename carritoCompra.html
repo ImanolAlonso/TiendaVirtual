@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+   crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+    <title>CARRITO</title>
+  </head>
+  <body>
+    <nav class="navbar bg-body-tertiary shadow-lg mb-4">
+      <div class="container-fluid p-3 row">
+        <a href="" class="navbar-brand col-lg-auto d-flex justify-content-center W-25"> <img src="Multimedia/logo.jpeg" width="70px" height="70px" alt="Logo"> </a>
+        <div class="d-flex col-lg-auto justify-content-center gap-2">
+          <a href="index.html" class="navbar-brand p-2 rounded text-uppercase itemNav"><small>home</small></a>
+          <a href="#" onclick="paginaNueva(this)" class="navbar-brand p-2 rounded text-uppercase itemNav" name="hombre"><small>hombre</small></a>
+          <a href="#" onclick="paginaNueva(this)" class="navbar-brand p-2 rounded text-uppercase itemNav" name="mujer"><small>mujer</small></a>
+          <a href="#" onclick="paginaNueva(this)" class="navbar-brand p-2 rounded text-uppercase itemNav" name="niño"><small>niño</small></a>
+        </div>
+        <div class="col-lg-auto d-flex align-items-center justify-content-center me-5">
+          <div class="dropdown mx-1">
+            <button class="btn btn-light dropdown-toggle text-capitalize" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="iniciarSesion"></button>
+            <ul class="dropdown-menu visually-hidden dropMenu">
+              <li><button class="dropdown-item d-flex align-items-center" type="button" id="cerrarSesion">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-box-arrow-in-left me-2" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0z"/>
+                  <path fill-rule="evenodd" d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708z"/>
+                </svg>
+                Cerrar Sesion
+              </button></li>
+            </ul>
+      </div>
+    </nav>
+    <div class="invisible z-3 position-absolute top-50 start-50 translate-middle vw-100 vh-100 d-flex align-items-center justify-content-center" style="backdrop-filter: blur(10px);" id="divMensajeExito">
+      <div class="bg-dark text-white shadow-lg rounded w-75 h-25 d-flex flex-column justify-content-center" id="mensajeExito">
+        <h1 class="text-center">Pedido realizado con exito</h1>
+        <br>
+        <p class="align-self-center">Redirigiendo...
+          <div class="spinner-border align-self-center" role="status">
+          </div>
+        </p>
+      </div>
+    </div>
+    <button class="btn btn-dark align-self-start m-3 d-flex align-items-center" onclick="volverAtras()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left me-2" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+      </svg>
+      Volver atras
+    </button>
+    <div class="row container border rounded m-auto mt-2 h-50 w-50" id="divProductos">
+      <h3 class="text-capitalize text-center m-2">resumen pedido</h3>
+      <hr class="w-75 m-auto">
+      <section class="" id="seccionProductos">
+        <h3 class="text-capitalize m-2">articulos</h3>
+        <div class="card border-0 mb-3" style="max-width: 540px;" id="divGeneral"></div>
+      </section>
+      <hr class="w-75 m-auto">
+        <div class="d-flex justify-content-between">
+          <h3 class="m-3">Total del pedido</h3>
+          <div class="d-flex align-items-center justify-content-center"><p class="m-0 fw-bold" id="total"></p></div>
+        </div>
+    </div>
+    <div class="d-flex align-items-center justify-content-center">
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-dark w-50 p-3 m-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Realizar pedido</button>
+
+      <!-- Modal -->
+      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">Realizar pedido</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+             ¿Esta seguro que quiere realizar el pedido?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Atras</button>
+              <button type="button" class="btn btn-success" id="realizarPedido">Aceptar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <script>
+      document.getElementById("realizarPedido").addEventListener("click",realizarPedido);
+      let iniciarSesion = document.getElementById("iniciarSesion");
+      iniciarSesion.innerHTML = localStorage.getItem("nombreSesion");
+      let divGeneral = document.getElementById("divGeneral");
+      let divProductos = document.getElementById("divProductos");
+      let total = document.getElementById("total");
+      let sumaTotal = 0;
+      let dropMenu = document.querySelectorAll(".dropMenu");
+      if (localStorage.getItem("sesion") == "true") {
+        dropMenu[0].classList.remove("visually-hidden");
+      }
+      let itemsNav = document.querySelectorAll(".itemNav");
+      itemsNav.forEach(item => {
+        item.addEventListener("mouseover",function(){
+          item.classList += "shadow bg-danger bg-danger-gradient gbg-opacity-10 text-white";
+        })
+        item.addEventListener("mouseleave",function(){
+          item.classList.remove("shadow")
+          item.classList.remove("bg-danger")
+          item.classList.remove("bg-danger-gradient")
+          item.classList.remove("bg-opcaity-10")
+          item.classList.remove("text-white")
+        })
+      })
+      if(localStorage.getItem("Productos") == null){
+        document.getElementById("realizarPedido").classList.add("disabled")
+      }
+
+      function realizarPedido(){
+          localStorage.removeItem("Productos");
+          document.querySelector(".modal-backdrop").remove()
+          document.getElementById("staticBackdrop").style.display = 'none';
+          
+          setTimeout(function(){
+            document.getElementById("divMensajeExito").classList.remove("invisible");
+            document.getElementById("divMensajeExito").classList.add("visible");
+          }, 500);
+          
+          setTimeout(function(){
+              window.open("index.html","_self");
+          }, 4500);
+    }
+    
+
+      function volverAtras(){
+        history.back();
+      }
+
+      async function cargar(idPr,talla) {
+        try {
+          const json = await cargarJSON();
+          mostrar(json,idPr,talla);
+        } catch (e) {
+          console.log(e);
+        }
+      }
+
+      async function cargarJSON() {
+        let doc = "articulos.json";
+        const respuesta = await fetch(doc);
+        const json = await respuesta.json();
+        return json;
+      }
+      
+      function openNewWindow() {
+        var ancho = 600;
+        var alto = 800;
+        var y = window.top.outerHeight / 2 + window.top.screenY - alto / 2;
+        var x = window.top.outerWidth / 2 + window.top.screenX - ancho / 2;
+        if(localStorage.getItem("sesion")=="false"){
+          window.open(
+          "inicioSesion.html",
+          "ventanaNueva",
+          "width=" + ancho + ",height=" + alto + ",top=" + y + ",left=" + x
+        );
+        }
+      }
+      function mostrarProductos() {
+        let producto = document.createElement("p");
+        productos = JSON.parse(localStorage.getItem("Productos"));
+        if (productos) {
+          productos.forEach((producto) => {
+            //Acceder al JSON con el producto(id)
+            cargar(producto.id,producto.talla);
+          });
+        }
+        
+      }
+      function mostrar(json,idPr,tallaPr) {
+        let productos = JSON.parse(localStorage.getItem('Productos'));
+        if(productos){
+          let divCard = document.createElement("div");
+          let divCardBody = document.createElement("div");
+          let divBody = document.createElement("div");
+          let papelera = document.createElement("button");
+          let img = document.createElement("img");
+          let h5 = document.createElement("h5");
+          let precio = document.createElement("p");
+          let talla = document.createElement("p");
+
+          divCard.classList = "row g-0 m-1 w-100 align-items-center";
+          divCardBody.className = "card-body p-0";
+          divBody.classList = "col px-2"
+          img.classList = "col-lg-4 me-1 img-fluid rounded";
+          h5.className = "card-title";
+          img.src = json[idPr - 1].imagenes[0];
+          h5.innerHTML = json[idPr - 1].nombre;
+          talla.innerHTML = "Talla: " + tallaPr
+          precio.className = "precio"
+          precio.innerHTML = json[idPr - 1].precio + " &#8364";
+          papelera.classList = "btn btn-dark col-lg-4 col-md-4 m-0 botonPapelera"
+          papelera.id = idPr
+          papelera.innerHTML ="Eliminar";
+          papelera.addEventListener("click",borrarElemento);
+
+          divCard.appendChild(img)
+          divCardBody.appendChild(h5);
+          divCardBody.appendChild(talla)
+          
+          divCardBody.appendChild(precio);
+          divBody.appendChild(divCardBody)
+          divCard.appendChild(divBody);
+          divCard.appendChild(papelera)
+          divGeneral.appendChild(divCard);
+        }
+      }
+      function borrarElemento(e){
+        let contador = 0;
+        let productos = JSON.parse(localStorage.getItem('Productos'));
+        document.getElementById("divGeneral").querySelectorAll("div .row").forEach(div => {
+          if(e.target.parentElement == div){
+            productos.splice(productos.indexOf(productos[contador]),1)
+            localStorage.setItem('Productos', JSON.stringify(productos));
+            div.remove();
+          } else {
+            contador += 1;
+          }
+        })
+        mostrarTotal();
+      }
+      function mostrarTotal(){
+        let productos = JSON.parse(localStorage.getItem('Productos'));
+        productos.forEach(producto => {
+          sumaTotal += Number(producto.precio)
+        })
+        total.innerHTML = sumaTotal + " &#8364"
+        sumaTotal = 0;
+      }
+      function paginaNueva(e){
+        sessionStorage.setItem("seccion",e.name)
+        window.open("productos.html", '_self');
+    }
+      mostrarProductos();
+      mostrarTotal();
+    </script>
+  </body>
+</html>
